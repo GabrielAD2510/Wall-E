@@ -1,0 +1,27 @@
+#include <Servo.h>
+
+Servo servoMotor;
+const int servoPin = 9;  // Pin PWM conectado al servomotor
+const int ledPin = LED_BUILTIN; // LED integrado
+
+void setup() {
+  servoMotor.attach(servoPin);
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(9600);
+  servoMotor.write(0); // Inicia servo en 0%
+  digitalWrite(ledPin, LOW); // LED apagado inicialmente
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    char input = Serial.read();
+    
+    if (input == '1') {
+      servoMotor.write(180); // Mueve servo al 100%
+      digitalWrite(ledPin, HIGH); // Enciende LED
+    } else if (input == '0') {
+      servoMotor.write(0); // Mueve servo al 0%
+      digitalWrite(ledPin, LOW); // Apaga LED
+    }
+  }
+}
